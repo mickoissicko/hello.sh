@@ -50,7 +50,7 @@ def splash():
 def main():
     howdy()
 
-    nfetchpath = "config/neo.fetch"
+    nfetchpath = "../config/neo.fetch"
 
     try:
         with open(nfetchpath, 'r') as file:
@@ -60,11 +60,8 @@ def main():
             if line.startswith("$NFETCH =="):
                 startup_command = line.split("==")[1].strip()
                 break
-        else:
-            startup_command = "neofetch"
-
     except FileNotFoundError:
-        startup_command = "neofetch"
+        startup_command = "echo Couldn't find neo.fetch."
 
     subprocess.run(startup_command, shell=True)
 
