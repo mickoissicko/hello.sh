@@ -30,7 +30,8 @@ def activate():
         file.write(f'DF={dot_files}\n')
 
     with open(dot_files, 'a') as file:
-        file.write(f'# HelloShell Startup Configuration\n')
+        file.write(f'\n# HelloShell Startup Configuration\n')
+        file.write(f'clear\n')
         file.write(f'python {current_working_directory}/scripts/welcomeshell.py\n')
 
 def deactivate():
