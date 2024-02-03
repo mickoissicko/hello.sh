@@ -1,4 +1,5 @@
 import os
+import getpass
 
 def read_file(file_path):
     with open(file_path, 'r') as file:
@@ -18,10 +19,39 @@ def configure_fetch_command():
     write_file("../config/neo.fetch", fetch_content)
 
 def activate():
-    pass
+    os.system('python ../pwd.py')
+
+    with open('../config/working.directory', 'r') as wd_file:
+        working_directory = wd_file.read().strip()
+
+    dotfile_path = input("Enter the path to your shell-DOTFILE: ")
+
+    username = getpass.getuser()
+    dotfile_path = dotfile_path.replace('~', f'/home/{username}')
+
+    rc_toml_path = '../config/rc.toml'
+
+    with open(rc_toml_path, 'r') as file:
+        contents = file.read()
+
+    contents = contents.replace('$SHELL ==', f'$SHELL == "{dotfile_path}"')
+
+    with open(rc_toml_path, 'w') as file:
+        file.write(contents)
+
+    with open(dotfile_path, 'a') as dotfile:
+        dotfile.write(f'\n# HELLOSHELL CONFIGURATION\npython {working_directory}/scripts/welcomeshell.py')
 
 def deactivate():
-    pass
+    rc_toml_path = '../config/rc.toml'
+
+    with open(rc_toml_path, 'r') as file:
+        contents = file.read()
+
+    contents = contents.replace('$SHELL ==', '$SHELL == ~/.bashrc')
+
+    with open(rc_toml_path, 'w') as file:
+        file.write(contents)
 
 def main():
     while True:
