@@ -50,7 +50,8 @@ def splash():
 def main():
     howdy()
 
-    nfetchpath = "../config/neo.fetch"
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    nfetchpath = os.path.join(script_dir, "..", "config", "neo.fetch")
 
     try:
         with open(nfetchpath, 'r') as file:
