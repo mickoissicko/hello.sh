@@ -21,17 +21,20 @@ def howdy():
     print(border)
 
 def splash():
-    splashtext_file = "../text/splash.text"
-    
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    splashtext_file = os.path.join(script_dir, "..", "text", "splash.text")
+
     try:
         with open(splashtext_file, 'r') as file:
             phrases = file.readlines()
-        
+
         random_phrase = random.choice(phrases)
     except FileNotFoundError:
         print(f"Error: File '{splashtext_file}' not found.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        return
+
+    except Exception:
+        exit
 
     terminal_width = os.get_terminal_size().columns
 
@@ -47,7 +50,7 @@ def splash():
 def main():
     howdy()
 
-    nfetchpath = "../config/neo.fetch"
+    nfetchpath = "config/neo.fetch"
 
     try:
         with open(nfetchpath, 'r') as file:
