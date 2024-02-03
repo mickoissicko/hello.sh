@@ -12,14 +12,15 @@ try:
         terminal = config_file.read().strip()
 except FileNotFoundError:
     terminal = 'konsole'
-command = [terminal, '--hold', '-e', 'python3', 'scripts/btop.py']
 
 try:
     with open(config2_path, 'r') as config_file:
-        command = config_file.read().strip()
-
+        nfetch_line = config_file.read().strip()
+        nfetch_command = nfetch_line.split('==', 1)[1].strip()
 except FileNotFoundError:
-    command = 'neofetch'
+    nfetch_command = 'neofetch'
+
+command = [terminal, '--hold', '-e', 'python3', 'scripts/btop.py'] if not nfetch_command else nfetch_command.split()
 
 def howdy():
     os.system('clear')

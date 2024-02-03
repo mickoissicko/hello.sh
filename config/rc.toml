@@ -1,0 +1,11 @@
+# Default presets
+# You can add a custom path
+
+&STARSHIP == ~/.config/starship.toml
+&FISH == ~/.config/fish/config.fish
+&BASH == ~/.bashrc
+&ZSH == ~/.zshrc
+
+# The below line determines which shell is your default
+# The default shell without any configuration will be BASH
+$SHELL == BASH

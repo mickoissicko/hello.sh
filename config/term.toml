@@ -1,0 +1,3 @@
+# The default terminal will be Konsole. You can change this.
+
+$TERM == Konsole

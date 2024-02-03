@@ -1,0 +1,3 @@
+# Startup command. Default is neofetch -- you may change this.
+
+$NFETCH == neofetch
