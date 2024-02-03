@@ -1,6 +1,8 @@
 import os
 import getpass
 
+os.chdir('..')
+
 def read_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
@@ -16,20 +18,20 @@ def print_file_content(file_path):
 def configure_fetch_command():
     fetch_path = input("Enter the *Fetch command: ")
     fetch_content = f"# Startup command. Default is ScreenFetch -- you may change this.\n\n$NFETCH == {fetch_path}\n"
-    write_file("../config/neo.fetch", fetch_content)
+    write_file("config/neo.fetch", fetch_content)
 
 def activate():
 
     dot_files = input("Enter the path to your shell-DOTFILES: ")
 
     current_working_directory = os.getcwd()
-    with open('../config/working.directory', 'w') as file:
+    with open('config/working.directory', 'w') as file:
         file.write(f'WD={current_working_directory}\n')
         file.write(f'DF={dot_files}\n')
 
     with open(dot_files, 'a') as file:
         file.write(f'# HelloShell Startup Configuration\n')
-        file.write(f'python {current_working_directory}/scripts/welcomeshell.py\n')
+        file.write(f'python ..{current_working_directory}/scripts/welcomeshell.py\n')
 
 def deactivate():
     pass
