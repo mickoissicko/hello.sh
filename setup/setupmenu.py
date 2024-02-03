@@ -1,20 +1,37 @@
-
 import os
 
-def edit_config(file_path, replacement_text):
+def read_file(file_path):
     with open(file_path, 'r') as file:
-        content = file.read()
+        return file.read()
 
-    print(f"Before:\n{content}")
-
+def write_file(file_path, content):
     with open(file_path, 'w') as file:
-        file.write(replacement_text)
+        file.write(content)
 
-    print(f"After:\n{replacement_text}")
+def print_file_content(file_path):
+    content = read_file(file_path)
+    print(f"Content of {file_path}:\n{content}")
+
+def configure_fetch_command():
+    fetch_path = input("Enter the *Fetch command: ")
+    fetch_content = f"# Startup command. Default is ScreenFetch -- you may change this.\n\n$NFETCH == {fetch_path}\n"
+    write_file("../config/neo.fetch", fetch_content)
+    print("\n[1] Fetch command configured successfully.\n")
+
+def configure_dotfile_path():
+    rc_path = input("Enter the path to your RC/Prompt configuration file: ")
+    term_emulator = input("Enter preferred terminal emulator: ")
+
+    rc_content = f"# Default presets\n# You can add a custom path\n\n&STARSHIP == ~/.config/starship.toml\n&FISH == ~/.config/fish/config.fish\n&BASH == ~/.bashrc\n&ZSH == {rc_path}\n\n# The below line determines the path. Default is ~/.bashrc.\n$SHELL == {rc_path}\n"
+    term_content = f"# The default terminal will be Konsole. You can change this.\n\n$TERM == {term_emulator}\n"
+
+    write_file("../config/rc.toml", rc_content)
+    write_file("../config/term.toml", term_content)
+
+    print("\n[2] DOTFILE path and Terminal emulator configured successfully.\n")
 
 def configure_automatic_start(rc_path):
-    with open(rc_path, 'r') as rc_file:
-        rc_content = rc_file.read()
+    rc_content = read_file(rc_path)
 
     shell_line_start = rc_content.find("$SHELL == ") + len("$SHELL == ")
     shell_line_end = rc_content.find("\n", shell_line_start)
@@ -30,36 +47,30 @@ def configure_automatic_start(rc_path):
     with open(rc_path, 'a') as rc_file:
         rc_file.write(new_content)
 
-    print("\n[4]\nApplied settings!\n")
+    print("\n[3] Automatic start configured successfully.\n")
 
 def main():
-    print("[1] Configure *Fetch command")
-    fetch_path = input("Enter the path for Fetch command: ")
-    fetch_content = f"# Startup command. Default is ScreenFetch -- you may change this.\n\n$NFETCH == {fetch_path}\n"
-    edit_config("../config/neo.fetch", fetch_content)
-
-    print("\n[2] Configure DOTFILE path")
-    rc_path = input("Enter the path to your RC/Prompt configuration file: ")
-    rc_content = f"# Default presets\n# You can add a custom path\n\n&STARSHIP == ~/.config/starship.toml\n&FISH == ~/.config/fish/config.fish\n&BASH == ~/.bashrc\n&ZSH == {rc_path}\n\n# The below line determines the path. Default is ~/.bashrc.\n$SHELL == {rc_path}\n"
-    edit_config("../config/rc.toml", rc_content)
-
-    print("\n[3] Configure Terminal emulator")
-    term_emulator = input("Enter preferred terminal emulator: ")
-    term_content = f"# The default terminal will be Konsole. You can change this.\n\n$TERM == {term_emulator}\n"
-    edit_config("../config/term.toml", term_content)
-
     while True:
-        print("\n[4] Configure automatic start")
+        print("\nMenu:")
+        print("[1] Configure *Fetch command")
+        print("[2] DOTFILE path and Terminal emulator")
+        print("[3] Configure Automatic start")
         print("[X] Quit")
-        option = input("Enter your choice (4 to configure automatic start, X to quit): ").upper()
+
+        option = input("Enter your choice: ").upper()
 
         if option == 'X':
             print("\n[X] Quits the program.")
             break
-        elif option == '4':
+        elif option == '1':
+            configure_fetch_command()
+        elif option == '2':
+            configure_dotfile_path()
+        elif option == '3':
+            rc_path = input("Write the path once again (for verification) ")
             configure_automatic_start(rc_path)
         else:
-            print("\nInvalid option. Please enter 4 to configure automatic start or X to quit.")
+            print("\nInvalid option. Please enter a valid option.\n")
 
 if __name__ == "__main__":
     main()
