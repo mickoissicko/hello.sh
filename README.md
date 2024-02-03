@@ -13,4 +13,4 @@ A cool script that adds a cool login-welcome screen everytime you log into your 
 * Any Nerdfont applied
 
 ## Installation
-Check [the wiki](https://mick.gdn/wiki/hello.sh)
+Check ```[the wiki](https://mick.gdn/wiki/hello.sh)```
