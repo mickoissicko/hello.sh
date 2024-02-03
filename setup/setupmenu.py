@@ -31,10 +31,27 @@ def activate():
 
     with open(dot_files, 'a') as file:
         file.write(f'# HelloShell Startup Configuration\n')
-        file.write(f'python ..{current_working_directory}/scripts/welcomeshell.py\n')
+        file.write(f'python {current_working_directory}/scripts/welcomeshell.py\n')
 
 def deactivate():
-    pass
+    config_file_path = "config/working.directory"
+    with open(config_file_path, 'r') as config_file:
+        config_contents = config_file.readlines()
+    df_path = None
+    for line in config_contents:
+        if line.startswith("DF="):
+            df_path = line.split('=')[1].strip()
+            break
+    try:
+        with open(df_path, 'r') as target_file:
+            file_contents = target_file.read()
+        modified_contents = file_contents.split("# HelloShell Startup Configuration")[0].split("python")[0].strip()
+        with open(df_path, 'w') as target_file:
+            target_file.write(modified_contents)
+        print(f"File '{df_path}' edited successfully.")
+    except FileNotFoundError:
+        print(f"File '{df_path}' not found.")
+
 
 def main():
     while True:
