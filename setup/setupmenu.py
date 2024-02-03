@@ -29,5 +29,8 @@ def main():
     edit_config("../config/term.toml", term_content)
 
 
+# ok there is no way im gonna be able to edit this garbage i wrote down at 4 AM
+# will recode later
+
 if __name__ == "__main__":
     main()
