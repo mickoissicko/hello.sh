@@ -1,10 +1,11 @@
 #!/bin/bash
 
 lock_file="setup/lock.pa"
-launcher="python setup/setupmenu.py"
 
 if [ -e "$lock_file" ]; then
-    $launcher
+    cd setup/
+    sudo python setupmenu.py
+    exit 0
 else
     touch "$lock_file"
     cd setup/
