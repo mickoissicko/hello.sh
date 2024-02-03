@@ -16,14 +16,14 @@ def print_file_content(file_path):
 def configure_fetch_command():
     fetch_path = input("Enter the *Fetch command: ")
     fetch_content = f"# Startup command. Default is ScreenFetch -- you may change this.\n\n$NFETCH == {fetch_path}\n"
-    write_file("config/neo.fetch", fetch_content)
+    write_file("../config/neo.fetch", fetch_content)
 
 def activate():
 
     dot_files = input("Enter the path to your shell-DOTFILES: ")
 
     current_working_directory = os.getcwd()
-    with open('config/working.directory', 'w') as file:
+    with open('../config/working.directory', 'w') as file:
         file.write(f'WD={current_working_directory}\n')
         file.write(f'DF={dot_files}\n')
 
