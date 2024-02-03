@@ -4,7 +4,7 @@ import os
 import getpass
 import subprocess
 
-config_path = '../config/term.txt'
+config_path = '../config/term.toml'
 config2_path = '../config/neo.fetch'
 
 try:
