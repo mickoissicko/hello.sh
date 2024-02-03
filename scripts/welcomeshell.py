@@ -8,23 +8,32 @@ config_path = '../config/term.toml'
 config2_path = '../config/neo.fetch'
 
 try:
-    with open(config_path, 'r') as config_file:
-        terminal = config_file.read().strip()
-except FileNotFoundError:
-    terminal = 'konsole'
-
-try:
     with open(config2_path, 'r') as config_file:
         nfetch_line = config_file.read().strip()
         nfetch_command = nfetch_line.split('==', 1)[1].strip()
 except FileNotFoundError:
     nfetch_command = 'neofetch'
 
-command = [terminal, '--hold', '-e', 'python3', 'scripts/btop.py'] if not nfetch_command else nfetch_command.split()
+def read_term_config():
+    try:
+        with open(config_path, 'r') as config_file:
+            for line in config_file:
+                line = line.strip()
+                if line.startswith('$TERM =='):
+                    return line.split('==', 1)[1].strip()
+            return None
+    except FileNotFoundError:
+        return None
 
 def howdy():
     os.system('clear')
-    subprocess.run(command, shell=True)
+
+    term_command = read_term_config()
+
+    if term_command:
+        subprocess.run(term_command, shell=True)
+    else:
+        print("No $TERM command specified in term.toml")
 
     whoami = getpass.getuser()
     terminal_width = os.get_terminal_size().columns
