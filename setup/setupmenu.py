@@ -67,7 +67,6 @@ def main():
         elif option == '2':
             configure_dotfile_path()
         elif option == '3':
-            rc_path = input("Write the path once again (for verification) ")
             configure_automatic_start(rc_path)
         else:
             print("\nInvalid option. Please enter a valid option.\n")
